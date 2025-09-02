@@ -232,6 +232,36 @@ const CALCS = [
     ],
     equation: "VDP (NM) = HAT (ft) ÷ Slope (ft/NM)\nSlope (ft/NM) = 6076.12 × tan(Slope °)",
   },
+  {
+  id: 'timeOut',
+  title: '14) Distance for 3-2-1 (and Custom) Minutes Out',
+  fields: [
+    { key: 'groundSpeedKt', label: 'Groundspeed (kt)' },
+    { key: 'customMinutes', label: 'Custom Minutes Out (optional)' },
+  ],
+  compute: (v) => {
+    const gs = toNum(v.groundSpeedKt);
+    const nmPerMin = gs / 60; // NM per minute
+    const threeMin = nmPerMin * 3;
+    const twoMin = nmPerMin * 2;
+    const oneMin = nmPerMin * 1;
+    const custom = toNum(v.customMinutes);
+
+    return {
+      dist3min: threeMin,
+      dist2min: twoMin,
+      dist1min: oneMin,
+      distCustom: custom ? nmPerMin * custom : null,
+    };
+  },
+  outputs: [
+    { key: 'dist3min', label: '3 min out (NM)' },
+    { key: 'dist2min', label: '2 min out (NM)' },
+    { key: 'dist1min', label: '1 min out (NM)' },
+    { key: 'distCustom', label: 'Custom min out (NM)' },
+  ],
+  equation: "Distance (NM) = (Groundspeed ÷ 60) × Time (min)",
+},
 ];
 
 // ---------- Screen ----------
